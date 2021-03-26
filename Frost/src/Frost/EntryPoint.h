@@ -5,7 +5,11 @@
 extern Frost::Application* Frost::CreateApplication();
 
 int main(int argc, char** argv) {
-	printf("hio");
+
+	Frost::Log::Init();
+	FS_CORE_WARN("WARNING");
+	FS_INFO("INFOO");
+
 	auto app = Frost::CreateApplication();
 	app->Run();
 	delete app;

@@ -30,9 +30,15 @@
     <ClInclude Include="src\Frost\EntryPoint.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="src\Frost\Log.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Frost\Application.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Frost\Log.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
