@@ -10,6 +10,11 @@ workspace "Frost"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+includeDir = {}
+includeDir["GLFW"] = "Frost/vendor/GLFW/include"
+
+include "Frost/vendor/GLFW"
+
 project "Frost"
     location "Frost"
     kind "SharedLib"
@@ -17,6 +22,9 @@ project "Frost"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    pchheader "pch.h"
+    pchsource "Frost/src/pch.cpp"
 
     files
     {
@@ -26,7 +34,15 @@ project "Frost"
 
     includedirs
     {
+        "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include",
+        "%{includeDir.GLFW}"
+    }
+
+    links
+    {
+        "GLFW",
+        "opengl32.lib",
     }
 
     filter "system:windows"

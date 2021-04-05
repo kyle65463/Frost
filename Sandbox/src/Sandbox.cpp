@@ -1,16 +1,21 @@
 #include <Frost.h>
 
-class Sandbox : public Frost::Application {
+class Sandbox : public Frost::Application
+{
 public:
-	Sandbox() {
+	Sandbox()
+	{
 
 	}
 
-	~Sandbox() {
+	~Sandbox()
+	{
 
 	}
+
 };
 
-Frost::Application* Frost::CreateApplication() {
+Frost::Application* Frost::CreateApplication()
+{
 	return new Sandbox();
 }
