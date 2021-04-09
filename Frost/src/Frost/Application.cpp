@@ -1,50 +1,40 @@
 #include "pch.h"
 #include "application.h"
-#include <GLFW/glfw3.h>
+
+#include "events/key_event.h"
 
 namespace Frost
 {
+	#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 	Application::Application()
 	{
+		window = std::unique_ptr<Window>(Window::create());
+		window->setEventCallback(BIND_EVENT_FN(onEvent));
 	}
 
 	Application::~Application()
 	{
 	}
 
+	void Application::onEvent(Event& e)
+	{
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClose));
+		FS_CORE_TRACE("{0}", e);
+	}
+
+	bool Application::onWindowClose(WindowCloseEvent &e)
+	{
+		running = false;
+		return true;
+	}
+
 	void Application::Run()
 	{
-		// Init glfw
-		if (!glfwInit())
+		while(running)
 		{
-			std::cout << "ERROR::Failed to init glfw" << std::endl;
-			return;
+			window->onUpdate();
 		}
-
-		// Set GL version
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-		// Create a window
-		GLFWwindow *window = glfwCreateWindow(800, 600, "Test OpenGL", NULL, NULL);
-		if (window == NULL)
-		{
-			std::cout << "ERROR::Failed to create the window" << std::endl;
-			glfwTerminate();
-			return;
-		}
-		glfwMakeContextCurrent(window);
-
-		// Render loop
-		while (!glfwWindowShouldClose(window))
-		{
-			glfwSwapBuffers(window);
-			glfwPollEvents();
-		}
-
-		glfwTerminate();
 	}
 }

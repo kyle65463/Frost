@@ -14,7 +14,7 @@ namespace Frost {
 	enum EventCategory
 	{
 		None = 0,
-		Application = BIT(0),
+		EventApplication = BIT(0),
 		Input = BIT(1),
 		Keyboard = BIT(2),
 		Mouse = BIT(3),

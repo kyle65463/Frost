@@ -2,7 +2,8 @@
 
 #include "event.h"
 
-namespace Frost {
+namespace Frost
+{
 	class FROST_API KeyEvent : public Event
 	{
 	public:
@@ -18,7 +19,7 @@ namespace Frost {
 	class FROST_API KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int keycode) : KeyEvent(keycode) {}
+		KeyPressedEvent(int keycode, int repeatCount) : m_RepeatCount(repeatCount), KeyEvent(keycode) {}
 
 		inline int getRepeatCount() const { return m_RepeatCount; }
 

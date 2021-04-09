@@ -2,8 +2,8 @@
 
 #include "pch.h"
 
-#include "frost/Core.h"
-#include "frost/Events/Event.h"
+#include "frost/core.h"
+#include "frost/events/event.h"
 
 namespace Frost
 {
@@ -23,10 +23,11 @@ namespace Frost
     // An interface of the window
     class Window
     {
-        typedef std::function<void(Event&)> EventCallbackFn;
+    public:
+        typedef std::function<void(Event &)> EventCallbackFn;
 
-        virtual ~Window() {};
-        static Window* create(const WindowProps& props = WindowProps());
+        virtual ~Window(){};
+        static Window *create(const WindowProps &props = WindowProps());
 
         virtual void onUpdate() = 0;
 
@@ -36,8 +37,7 @@ namespace Frost
         virtual bool isVSync() const = 0;
 
         // Setters
-        virtual void setEventCallback(const EventCallbackFn& callback) = 0;
+        virtual void setEventCallback(const EventCallbackFn &callback) = 0;
         virtual void setVSync(bool enabled) = 0;
-        
     };
 }
