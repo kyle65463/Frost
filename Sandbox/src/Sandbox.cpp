@@ -1,4 +1,5 @@
-#include <Frost.h>
+#include <frost.h>
+#include <iostream>
 
 class Sandbox : public Frost::Application
 {

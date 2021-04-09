@@ -10,9 +10,4 @@
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
-#include "Frost/Log.h"
-
-
-#ifdef FS_PLATFORM_WINDOWS
-	#include <Windows.h>
-#endif
+#include "frost/log.h"

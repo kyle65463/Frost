@@ -1,8 +1,6 @@
 #pragma once
 
-#include <memory>
-
-#include "Core.h"
+#include "core.h"
 #include "spdlog/spdlog.h"
 
 namespace Frost {

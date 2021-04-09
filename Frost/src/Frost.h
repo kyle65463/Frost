@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Frost/Application.h"
-#include "Frost/Log.h"
+#include "frost/application.h"
+#include "frost/log.h"
 
-#include "Frost/EntryPoint.h"
+// Entry point
+#include "frost/entry_point.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core.h"
+#include "core.h"
 
 namespace Frost {
 	class FROST_API Application

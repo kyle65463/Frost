@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Event.h"
+#include "event.h"
 
 namespace Frost {
 	class FROST_API WindowResizeEvent : public Event
