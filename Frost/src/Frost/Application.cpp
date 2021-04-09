@@ -7,8 +7,11 @@ namespace Frost
 {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
+	Application* Application::instance = NULL;
 	Application::Application()
 	{
+		FS_CORE_ASSERT(!instance, "Application already exists");
+		instance = this;
 		window = std::unique_ptr<Window>(Window::create());
 		window->setEventCallback(BIND_EVENT_FN(onEvent));
 	}
@@ -49,13 +52,16 @@ namespace Frost
 		}
 	}
 
+
 	void Application::pushLayer(Layer *layer)
 	{
 		layerStack.pushLayer(layer);
+		layer->onAttach();
 	}
 
 	void Application::pushOverlay(Layer *overlay)
 	{
 		layerStack.pushOverlay(overlay);
+		overlay->onAttach();
 	}
 }

@@ -19,11 +19,16 @@ namespace Frost
 		void pushLayer(Layer *layer);
 		void pushOverlay(Layer *overlay);
 
+		// Getters
+		inline static Application &get() { return *instance; }
+		inline Window &getWindow() { return *window; }
+
 	private:
 		bool onWindowClose(WindowCloseEvent &e);
 		std::unique_ptr<Window> window;
 		bool running = true;
 		LayerStack layerStack;
+		static Application *instance;
 	};
 
 	Application *CreateApplication();
