@@ -15,7 +15,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC src)
 target_precompile_headers(${PROJECT_NAME} PUBLIC src/pch.h)
 
 if(WIN32)
-    target_compile_options(${PROJECT_NAME} PUBLIC  -DFS_PLATFORM_WINDOWS)
+    target_compile_options(${PROJECT_NAME} PUBLIC -DFS_PLATFORM_WINDOWS)
 endif(WIN32)
 
 if(APPLE)

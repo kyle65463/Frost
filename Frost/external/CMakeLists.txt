@@ -6,7 +6,7 @@ add_subdirectory(imgui)
 add_library(external_libs INTERFACE)
 
 target_link_libraries(external_libs 
-    INTERFACE 
+    INTERFACE
     spdlog
     glfw
     glad

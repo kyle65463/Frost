@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "application.h"
 
+#include "GLFW/glfw3.h"
 #include "events/key_event.h"
 
 namespace Frost
 {
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
-
+	#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+	
 	Application* Application::instance = NULL;
 	Application::Application()
 	{
@@ -44,6 +45,8 @@ namespace Frost
 	{
 		while (running)
 		{
+			// glClearColor(1.0, 1.0, 0.5, 1.0);
+			// glClear(GL_COLOR_BUFFER_BIT);
 			for (Layer *layer : layerStack)
 			{
 				layer->onUpdate();
