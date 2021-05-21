@@ -16,6 +16,8 @@ target_precompile_headers(${PROJECT_NAME} PUBLIC src/pch.h)
 
 if(WIN32)
     target_compile_options(${PROJECT_NAME} PUBLIC -DFS_PLATFORM_WINDOWS)
+    target_compile_options(${PROJECT_NAME} PUBLIC -DFS_BUILD_DLL)
+    target_link_libraries(${PROJECT_NAME} PUBLIC opengl32)
 endif(WIN32)
 
 if(APPLE)

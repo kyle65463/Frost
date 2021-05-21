@@ -45,8 +45,8 @@ namespace Frost
 	{
 		while (running)
 		{
-			// glClearColor(1.0, 1.0, 0.5, 1.0);
-			// glClear(GL_COLOR_BUFFER_BIT);
+			glClearColor(1.0, 1.0, 0.5, 1.0);
+			glClear(GL_COLOR_BUFFER_BIT);
 			for (Layer *layer : layerStack)
 			{
 				layer->onUpdate();
