@@ -2,8 +2,8 @@
 #include "application.h"
 
 #include "GLFW/glfw3.h"
-#include "Frost/events/key_event.h"
-#include "Frost/input.h"
+#include "frost/events/key_event.h"
+#include "frost/input.h"
 
 namespace Frost
 {
@@ -25,11 +25,11 @@ namespace Frost
 	void Application::onEvent(Event &e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClose));
-		FS_CORE_TRACE("{0}", e);
-
-		for (auto it = layerStack.end() - 1; it != layerStack.begin(); it--)
+		dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClose));
+		
+		for (auto it = layerStack.end() - 1; it >= layerStack.begin(); it--)
 		{
+			// it--;
 			(*it)->onEvent(e);
 			if(e.handled)
 				break;
@@ -52,8 +52,7 @@ namespace Frost
 			{
 				layer->onUpdate();
 			}
-			auto[xPos, yPos] = Input::getMousePos();
-			FS_CORE_TRACE("{0}, {1}", xPos, yPos);
+
 			window->onUpdate();
 		}
 	}

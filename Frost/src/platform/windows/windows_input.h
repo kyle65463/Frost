@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Frost/input.h"
+#include "frost/input.h"
 
 namespace Frost
 {

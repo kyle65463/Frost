@@ -20,6 +20,7 @@ namespace Frost
         // Getters
         std::vector<Layer *>::iterator begin() { return layers.begin(); }
         std::vector<Layer *>::iterator end() { return layers.end(); }
+        int getSize() { return layers.size(); }
 
     private:
         std::vector<Layer *> layers;

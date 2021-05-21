@@ -9,10 +9,10 @@ namespace Frost {
 		MouseMovedEvent(float x, float y)
 			: m_XOffset(x), m_YOffset(y) {}
 
-		inline float GetX() const { return m_XOffset; }
-		inline float GetY() const { return m_YOffset; }
+		inline float getX() const { return m_XOffset; }
+		inline float getY() const { return m_YOffset; }
 
-		std::string ToString() const override
+		std::string toString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseMovedEvent: " << m_XOffset << ", " << m_YOffset;
@@ -32,10 +32,10 @@ namespace Frost {
 		MouseScrolledEvent(float xOffset, float yOffset)
 			: m_XOffset(xOffset), m_YOffset(yOffset) {}
 
-		inline float GetXOffset() const { return m_XOffset; }
-		inline float GetYOffset() const { return m_YOffset; }
+		inline float getXOffset() const { return m_XOffset; }
+		inline float getYOffset() const { return m_YOffset; }
 
-		std::string ToString() const override
+		std::string toString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseScrolledEvent: " << m_XOffset << ", " << m_YOffset;
@@ -52,7 +52,7 @@ namespace Frost {
 	class FROST_API MouseButtonEvent : public Event
 	{
 	public:
-		inline int GetMouseButton() const { return m_Button; }
+		inline int getMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::EventInput)
 
@@ -66,7 +66,7 @@ namespace Frost {
 	public:
 		MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
 
-		std::string ToString() const override
+		std::string toString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseButtonPressedEvent: " << m_Button;
@@ -81,7 +81,7 @@ namespace Frost {
 	public:
 		MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}
 
-		std::string ToString() const override
+		std::string toString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseButtonReleasedEvent: " << m_Button;

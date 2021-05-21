@@ -79,20 +79,20 @@ namespace Frost
     void ImGuiLayer::onEvent(Event& event)
 	{
 		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<MouseButtonPressedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onMouseButtonPressedEvent));
-		dispatcher.Dispatch<MouseButtonReleasedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onMouseButtonReleasedEvent));
-		dispatcher.Dispatch<MouseMovedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onMouseMovedEvent));
-		dispatcher.Dispatch<MouseScrolledEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onMouseScrolledEvent));
-		dispatcher.Dispatch<KeyPressedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onKeyPressedEvent));
-		dispatcher.Dispatch<KeyTypedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onKeyTypedEvent));
-		dispatcher.Dispatch<KeyReleasedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onKeyReleasedEvent));
-		dispatcher.Dispatch<WindowResizeEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onWindowResizeEvent));
+		dispatcher.dispatch<MouseButtonPressedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onMouseButtonPressedEvent));
+		dispatcher.dispatch<MouseButtonReleasedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onMouseButtonReleasedEvent));
+		dispatcher.dispatch<MouseMovedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onMouseMovedEvent));
+		dispatcher.dispatch<MouseScrolledEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onMouseScrolledEvent));
+		dispatcher.dispatch<KeyPressedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onKeyPressedEvent));
+		dispatcher.dispatch<KeyTypedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onKeyTypedEvent));
+		dispatcher.dispatch<KeyReleasedEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onKeyReleasedEvent));
+		dispatcher.dispatch<WindowResizeEvent>(FS_BIND_EVENT_FN(ImGuiLayer::onWindowResizeEvent));
 	}
 
 	bool ImGuiLayer::onMouseButtonPressedEvent(MouseButtonPressedEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.MouseDown[e.GetMouseButton()] = true;
+		io.MouseDown[e.getMouseButton()] = true;
 
 		return false;
 	}
@@ -100,7 +100,7 @@ namespace Frost
 	bool ImGuiLayer::onMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.MouseDown[e.GetMouseButton()] = false;
+		io.MouseDown[e.getMouseButton()] = false;
 
 		return false;
 	}
@@ -108,7 +108,7 @@ namespace Frost
 	bool ImGuiLayer::onMouseMovedEvent(MouseMovedEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.MousePos = ImVec2(e.GetX(), e.GetY());
+		io.MousePos = ImVec2(e.getX(), e.getY());
 
 		return false;
 	}
@@ -116,8 +116,8 @@ namespace Frost
 	bool ImGuiLayer::onMouseScrolledEvent(MouseScrolledEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.MouseWheelH += e.GetXOffset();
-		io.MouseWheel += e.GetYOffset();
+		io.MouseWheelH += e.getXOffset();
+		io.MouseWheel += e.getYOffset();
 
 		return false;
 	}
@@ -125,7 +125,7 @@ namespace Frost
 	bool ImGuiLayer::onKeyPressedEvent(KeyPressedEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.KeysDown[e.GetKeyCode()] = true;
+		io.KeysDown[e.getKeyCode()] = true;
 
 		io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
 		io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
@@ -137,7 +137,7 @@ namespace Frost
 	bool ImGuiLayer::onKeyReleasedEvent(KeyReleasedEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.KeysDown[e.GetKeyCode()] = false;
+		io.KeysDown[e.getKeyCode()] = false;
 
 		return false;
 	}
@@ -145,7 +145,7 @@ namespace Frost
 	bool ImGuiLayer::onKeyTypedEvent(KeyTypedEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		int keycode = e.GetKeyCode();
+		int keycode = e.getKeyCode();
 		if (keycode > 0 && keycode < 0x10000)
 			io.AddInputCharacter((unsigned short)keycode);
 
@@ -155,9 +155,9 @@ namespace Frost
 	bool ImGuiLayer::onWindowResizeEvent(WindowResizeEvent& e)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.DisplaySize = ImVec2(e.GetWidth(), e.GetHeight());
+		io.DisplaySize = ImVec2(e.getWidth(), e.getHeight());
 		io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
-		glViewport(0, 0, e.GetWidth(), e.GetHeight());
+		glViewport(0, 0, e.getWidth(), e.getHeight());
 
 		return false;
 	}

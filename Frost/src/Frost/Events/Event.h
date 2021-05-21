@@ -39,26 +39,26 @@ namespace Frost
 
 	public:
 		
-		virtual EventType GetEventType() const = 0;
-		virtual const char *GetName() const = 0;
-		virtual int GetCategoryFlags() const = 0;
-		virtual std::string ToString() const { return GetName(); }
+		virtual EventType getEventType() const = 0;
+		virtual const char *getName() const = 0;
+		virtual int getCategoryFlags() const = 0;
+		virtual std::string toString() const { return getName(); }
 
-		inline bool IsInCategory(EventCategory category)
+		inline bool isInCategory(EventCategory category)
 		{
-			return GetCategoryFlags() & category;
+			return getCategoryFlags() & category;
 		}
 
 		bool handled = false;
 	};
 
 #define EVENT_CLASS_TYPE(type)                                                  \
-	static EventType GetStaticType() { return EventType::type; }                \
-	virtual EventType GetEventType() const override { return GetStaticType(); } \
-	virtual const char *GetName() const override { return #type; }
+	static EventType getStaticType() { return EventType::type; }                \
+	virtual EventType getEventType() const override { return getStaticType(); } \
+	virtual const char *getName() const override { return #type; }
 
 #define EVENT_CLASS_CATEGORY(category) \
-	virtual int GetCategoryFlags() const override { return category; }
+	virtual int getCategoryFlags() const override { return category; }
 
 	class EventDispatcher
 	{
@@ -72,9 +72,9 @@ namespace Frost
 		}
 
 		template <typename T>
-		bool Dispatch(EventFn<T> func)
+		bool dispatch(EventFn<T> func)
 		{
-			if (m_Event.GetEventType() == T::GetStaticType())
+			if (m_Event.getEventType() == T::getStaticType())
 			{
 				m_Event.handled = func(*(T *)&m_Event);
 				return true;
@@ -88,6 +88,6 @@ namespace Frost
 
 	inline std::ostream &operator<<(std::ostream &os, const Event &e)
 	{
-		return os << e.ToString();
+		return os << e.toString();
 	}
 }

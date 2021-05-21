@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "windows_input.h"
-#include "Frost/application.h"
+#include "frost/application.h"
 #include "GLFW/glfw3.h"
 
 namespace Frost
@@ -12,7 +12,7 @@ namespace Frost
         GLFWwindow *window = static_cast<GLFWwindow *>(Application::get().getWindow().getNativeWindow());
         int state = glfwGetKey(window, keycode);
 
-        return state == GLFW_PRESS || GLFW_REPEAT;
+        return state == GLFW_PRESS || state == GLFW_REPEAT;
     }
 
     bool WindowsInput::isMouseButtonPressedImpl(int button)
