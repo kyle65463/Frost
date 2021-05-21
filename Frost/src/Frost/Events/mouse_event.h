@@ -20,7 +20,7 @@ namespace Frost {
 		}
 
 		EVENT_CLASS_TYPE(MouseMoved)
-		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
+		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::EventInput)
 
 	private:
 		unsigned int m_XOffset, m_YOffset;
@@ -43,7 +43,7 @@ namespace Frost {
 		}
 
 		EVENT_CLASS_TYPE(MouseScrolled)
-		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
+		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::EventInput)
 
 	private:
 		unsigned int m_XOffset, m_YOffset;
@@ -54,7 +54,7 @@ namespace Frost {
 	public:
 		inline int GetMouseButton() const { return m_Button; }
 
-		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
+		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::EventInput)
 
 	protected:
 		MouseButtonEvent(int button) : m_Button(button) {}

@@ -2,7 +2,8 @@
 #include "application.h"
 
 #include "GLFW/glfw3.h"
-#include "events/key_event.h"
+#include "Frost/events/key_event.h"
+#include "Frost/input.h"
 
 namespace Frost
 {
@@ -51,6 +52,8 @@ namespace Frost
 			{
 				layer->onUpdate();
 			}
+			auto[xPos, yPos] = Input::getMousePos();
+			FS_CORE_TRACE("{0}, {1}", xPos, yPos);
 			window->onUpdate();
 		}
 	}

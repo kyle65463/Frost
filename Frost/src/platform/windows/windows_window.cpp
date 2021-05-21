@@ -150,9 +150,4 @@ namespace Frost
 
         data.vSync = enabled;
     }
-
-    bool WindowsWindow::isVSync() const
-    {
-        return data.vSync;
-    }
 }

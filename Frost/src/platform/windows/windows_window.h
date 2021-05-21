@@ -17,7 +17,9 @@ namespace Frost
 		// Getters
 		inline unsigned int getWidth() const override { return data.width; };
 		inline unsigned int getHeight() const override { return data.height; };
-		bool isVSync() const override;
+		bool isVSync() const override { return data.vSync; }
+
+		inline void* getNativeWindow() const { return window; }
 
 		// Setters
 		inline void setEventCallback(const EventCallbackFn &callback) override { data.eventCallback = callback; };

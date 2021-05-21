@@ -36,6 +36,8 @@ namespace Frost
         virtual unsigned int getHeight() const = 0;
         virtual bool isVSync() const = 0;
 
+        virtual void* getNativeWindow() const = 0;
+
         // Setters
         virtual void setEventCallback(const EventCallbackFn &callback) = 0;
         virtual void setVSync(bool enabled) = 0;

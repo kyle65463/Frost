@@ -27,7 +27,7 @@ namespace Frost
 	{
 		None = 0,
 		EventApplication = BIT(0),
-		Input = BIT(1),
+		EventInput = BIT(1),
 		Keyboard = BIT(2),
 		Mouse = BIT(3),
 		MouseButton = BIT(4),
