@@ -16,6 +16,9 @@ namespace Frost
 		instance = this;
 		window = std::unique_ptr<Window>(Window::create());
 		window->setEventCallback(BIND_EVENT_FN(onEvent));
+
+		imGuiLayer = new ImGuiLayer();
+		pushOverlay(imGuiLayer);
 	}
 
 	Application::~Application()
@@ -48,10 +51,14 @@ namespace Frost
 		{
 			glClearColor(1.0, 1.0, 0.5, 1.0);
 			glClear(GL_COLOR_BUFFER_BIT);
+			
 			for (Layer *layer : layerStack)
-			{
 				layer->onUpdate();
-			}
+
+			imGuiLayer->begin();
+			for (Layer *layer : layerStack)
+				layer->onImGuiRender();
+			imGuiLayer->end();
 
 			window->onUpdate();
 		}

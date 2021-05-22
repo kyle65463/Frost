@@ -9,7 +9,13 @@ add_subdirectory(external)
 
 file(GLOB_RECURSE SOURCES src/*.cpp src/*.h)
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES})
+add_library(${PROJECT_NAME} SHARED ${SOURCES} 
+    external/imgui/backends/imgui_impl_glfw.h 
+    external/imgui/backends/imgui_impl_glfw.cpp 
+    external/imgui/backends/imgui_impl_opengl3.h
+    external/imgui/backends/imgui_impl_opengl3.cpp
+)
+
 target_link_libraries(${PROJECT_NAME} PUBLIC external_libs)
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 target_precompile_headers(${PROJECT_NAME} PUBLIC src/pch.h)

@@ -24,6 +24,6 @@ namespace Frost
 
     private:
         std::vector<Layer *> layers;
-        std::vector<Layer *>::iterator layerInsertIter;
+        unsigned int layerInsertIndex = 0;
     };
 }

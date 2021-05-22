@@ -1,10 +1,11 @@
 #pragma once
 
-#include "core.h"
-#include "events/event.h"
-#include "events/application_event.h"
-#include "window.h"
-#include "layer_stack.h"
+#include "frost/core.h"
+#include "frost/events/event.h"
+#include "frost/events/application_event.h"
+#include "frost/window.h"
+#include "frost/layer_stack.h"
+#include "frost/imgui/imgui_layer.h"
 
 namespace Frost
 {
@@ -26,6 +27,7 @@ namespace Frost
 	private:
 		bool onWindowClose(WindowCloseEvent &e);
 		std::unique_ptr<Window> window;
+		ImGuiLayer* imGuiLayer;
 		bool running = true;
 		LayerStack layerStack;
 		static Application *instance;

@@ -5,7 +5,6 @@ namespace Frost
 {
     LayerStack::LayerStack()
     {
-        layerInsertIter = layers.begin();
     }
 
     LayerStack::~LayerStack()
@@ -16,7 +15,8 @@ namespace Frost
 
     void LayerStack::pushLayer(Layer *layer)
     {
-        layerInsertIter = layers.emplace(layerInsertIter, layer);
+        layers.emplace(layers.begin() + layerInsertIndex, layer);
+        layerInsertIndex++;
     }
 
     void LayerStack::pushOverlay(Layer *overlay)
@@ -30,7 +30,7 @@ namespace Frost
         if(it != layers.end())
         {
             layers.erase(it);
-            layerInsertIter--;
+            layerInsertIndex--;
         }
     }
 

@@ -14,19 +14,12 @@ namespace Frost
         ImGuiLayer();
         ~ImGuiLayer();
 
-        void onAttach();
-        void onDetach();
-        void onUpdate();
-        void onEvent(Event &e);
+	    void onAttach() override;
+		void onDetach() override;
+	    void onImGuiRender() override;
 
-        bool onMouseButtonPressedEvent(MouseButtonPressedEvent &e);
-        bool onMouseButtonReleasedEvent(MouseButtonReleasedEvent &e);
-        bool onMouseMovedEvent(MouseMovedEvent &e);
-        bool onMouseScrolledEvent(MouseScrolledEvent &e);
-        bool onKeyPressedEvent(KeyPressedEvent &e);
-        bool onKeyReleasedEvent(KeyReleasedEvent &e);
-        bool onKeyTypedEvent(KeyTypedEvent &e);
-        bool onWindowResizeEvent(WindowResizeEvent &e);
+		void begin();
+		void end();
 
     private:
         float time = 0.0f;

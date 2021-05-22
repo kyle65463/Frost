@@ -15,6 +15,7 @@ namespace Frost
         virtual void onDetach() {}
         virtual void onUpdate() {}
         virtual void onEvent(Event &e) {}
+        virtual void onImGuiRender() {}
 
         // Getters
         inline const std::string &getName() const { return name; }
