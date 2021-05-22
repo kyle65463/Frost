@@ -16,6 +16,7 @@ public:
 	}
 
 	void onImGuiRender() override {
+		ImGui::Text("hi");
 	}
 
 	void onEvent(Frost::Event& event) override
