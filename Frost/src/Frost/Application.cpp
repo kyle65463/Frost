@@ -11,6 +11,7 @@ namespace Frost
 
 	Application *Application::instance = NULL;
 	Application::Application()
+		: camera(-1.0f, 1.0f, -1.0f, 1.0f)
 	{
 		FS_CORE_ASSERT(!instance, "Application already exists");
 		instance = this;
@@ -19,19 +20,17 @@ namespace Frost
 
 		imGuiLayer = new ImGuiLayer();
 		pushOverlay(imGuiLayer);
-		
+
 		vertexArray.reset(VertexArray::create());
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
 			0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
-			0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
-		};
+			0.0f, 0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f};
 
 		BufferLayout layout = {
 			{ShaderDataType::Float3, "a_Position"},
-			{ShaderDataType::Float4, "a_Color"}
-		};
+			{ShaderDataType::Float4, "a_Color"}};
 
 		std::shared_ptr<VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(VertexBuffer::create(vertices, sizeof(vertices)));
@@ -50,6 +49,8 @@ namespace Frost
 			layout(location=0) in vec3 a_Position;
 			layout(location=1) in vec4 a_Color;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 			out vec4 v_Color;
 
@@ -57,7 +58,7 @@ namespace Frost
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -75,7 +76,7 @@ namespace Frost
 			}
 		)";
 
-		shader = new Shader(vertexSrc, fragmentSrc);
+		shader.reset(new Shader(vertexSrc, fragmentSrc));
 	}
 
 	Application::~Application()
@@ -108,17 +109,20 @@ namespace Frost
 			// Clear the screen
 			RenderCommand::setClearColor({1.0, 1.0, 0.5, 1.0});
 			RenderCommand::clear();
-			
+
+			camera.setPosition({0.5f, 0.0f, 0.0f});
+			camera.setRotation(45.0f);
+
 			// Render the scene
-			Renderer::beginScene();
-			shader->bind();
-			Renderer::submit(vertexArray);
+			Renderer::beginScene(camera);
+			Renderer::submit(shader, vertexArray);
+		
 			Renderer::endScene();
 
 			// Update layers
 			for (Layer *layer : layerStack)
 				layer->onUpdate();
-			
+
 			// Update imgui layers
 			imGuiLayer->begin();
 			for (Layer *layer : layerStack)
