@@ -12,9 +12,12 @@ namespace Frost
 
         void bind() const override;
         void unbind() const override;
+        virtual const BufferLayout& getLayout() const override { return layout; }
+        void setLayout(const BufferLayout& layout) override { this->layout = layout; }
 
     private:
         uint32_t rendererId;
+        BufferLayout layout;
     };
 
     class OpenGLIndexBuffer : public IndexBuffer

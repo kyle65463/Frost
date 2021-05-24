@@ -7,7 +7,6 @@ namespace Frost
 {
     VertexBuffer *VertexBuffer::create(float *vertices, uint32_t size)
     {
-        FS_INFO("hi");
         return new OpenGLVertexBuffer(vertices, size);
     }
 
