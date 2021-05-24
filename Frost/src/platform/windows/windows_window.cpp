@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "windows_window.h"
 
-#include "frost/core.h"
 #include "frost/events/application_event.h"
 #include "frost/events/mouse_event.h"
 #include "frost/events/key_event.h"
+
+#include "platform/opengl/opengl_context.h"
+#
 
 namespace Frost
 {
@@ -51,12 +53,12 @@ namespace Frost
         }
 
         window = glfwCreateWindow((int)props.width, (int)props.height, props.title.c_str(), NULL, NULL);
-        glfwMakeContextCurrent(window);
+
+        context = new OpenGLContext(window);
+        context->init();
+
         glfwSetWindowUserPointer(window, &data);
         setVSync(true);
-
-        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        FS_CORE_ASSERT(status, "Failed to initialize glad");
 
         glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int width, int height) {
             WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
@@ -138,7 +140,8 @@ namespace Frost
     void WindowsWindow::onUpdate()
     {
         glfwPollEvents();
-        glfwSwapBuffers(window);
+        context->swapBuffers();
+        
     }
 
     void WindowsWindow::setVSync(bool enabled)

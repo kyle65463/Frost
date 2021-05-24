@@ -6,6 +6,7 @@
 #include "frost/window.h"
 #include "frost/layer_stack.h"
 #include "frost/imgui/imgui_layer.h"
+#include "frost/renderer/shader.h"
 
 namespace Frost
 {
@@ -27,6 +28,8 @@ namespace Frost
 	private:
 		bool onWindowClose(WindowCloseEvent &e);
 		std::unique_ptr<Window> window;
+		Shader* shader;
+		unsigned int m_VertexArray, vertexBuffer, indexBuffer;
 		ImGuiLayer* imGuiLayer;
 		bool running = true;
 		LayerStack layerStack;

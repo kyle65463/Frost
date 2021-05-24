@@ -1,6 +1,7 @@
 #pragma once
 
 #include "frost/window.h"
+#include "frost/renderer/graphics_context.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -30,6 +31,7 @@ namespace Frost
 		virtual void shutdown();
 
 		GLFWwindow *window;
+		GraphicsContext *context;
 
 		struct WindowData
 		{
