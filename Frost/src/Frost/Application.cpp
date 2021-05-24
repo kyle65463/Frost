@@ -1,11 +1,9 @@
 #include "pch.h"
 #include "application.h"
 
-#include <glad/glad.h>
-#include "GLFW/glfw3.h"
 #include "frost/events/key_event.h"
-#include "frost/input.h"
 #include "frost/renderer/buffer.h"
+#include "frost/renderer/renderer.h"
 
 namespace Frost
 {
@@ -38,8 +36,6 @@ namespace Frost
 		std::shared_ptr<VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(VertexBuffer::create(vertices, sizeof(vertices)));
 		vertexBuffer->setLayout(layout);
-
-		
 
 		unsigned int indices[3] = {0, 1, 2};
 		std::shared_ptr<IndexBuffer> indexBuffer;
@@ -93,7 +89,6 @@ namespace Frost
 
 		for (auto it = layerStack.end() - 1; it >= layerStack.begin(); it--)
 		{
-			// it--;
 			(*it)->onEvent(e);
 			if (e.handled)
 				break;
@@ -110,21 +105,27 @@ namespace Frost
 	{
 		while (running)
 		{
-			glClearColor(1.0, 1.0, 0.5, 1.0);
-			glClear(GL_COLOR_BUFFER_BIT);
-
+			// Clear the screen
+			RenderCommand::setClearColor({1.0, 1.0, 0.5, 1.0});
+			RenderCommand::clear();
+			
+			// Render the scene
+			Renderer::beginScene();
 			shader->bind();
-			vertexArray->bind();
-			glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::submit(vertexArray);
+			Renderer::endScene();
 
+			// Update layers
 			for (Layer *layer : layerStack)
 				layer->onUpdate();
-
+			
+			// Update imgui layers
 			imGuiLayer->begin();
 			for (Layer *layer : layerStack)
 				layer->onImGuiRender();
 			imGuiLayer->end();
 
+			// Update the window
 			window->onUpdate();
 		}
 	}
