@@ -14,6 +14,6 @@ namespace Frost
         void unbind() const;
 
     private:
-        unsigned int rendererId;
+        uint32_t rendererId;
     };
 }
