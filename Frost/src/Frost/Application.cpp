@@ -5,42 +5,11 @@
 #include "GLFW/glfw3.h"
 #include "frost/events/key_event.h"
 #include "frost/input.h"
+#include "frost/renderer/buffer.h"
 
 namespace Frost
 {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
-
-	static GLenum shaderDataTypeToOpenGLBaseType(ShaderDataType type)
-	{
-		switch (type)
-		{
-		case ShaderDataType::Float:
-			return GL_FLOAT;
-		case ShaderDataType::Float2:
-			return GL_FLOAT;
-		case ShaderDataType::Float3:
-			return GL_FLOAT;
-		case ShaderDataType::Float4:
-			return GL_FLOAT;
-		case ShaderDataType::Mat3:
-			return GL_FLOAT;
-		case ShaderDataType::Mat4:
-			return GL_FLOAT;
-		case ShaderDataType::Int:
-			return GL_INT;
-		case ShaderDataType::Int2:
-			return GL_INT;
-		case ShaderDataType::Int3:
-			return GL_INT;
-		case ShaderDataType::Int4:
-			return GL_INT;
-		case ShaderDataType::Bool:
-			return GL_BOOL;
-		}
-
-		FS_CORE_ERROR("Unknown shader data type");
-		return 0;
-	}
 
 	Application *Application::instance = NULL;
 	Application::Application()
@@ -52,9 +21,8 @@ namespace Frost
 
 		imGuiLayer = new ImGuiLayer();
 		pushOverlay(imGuiLayer);
-
-		glGenVertexArrays(1, &vertexArray);
-		glBindVertexArray(vertexArray);
+		
+		vertexArray.reset(VertexArray::create());
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
@@ -62,32 +30,23 @@ namespace Frost
 			0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
 		};
 
-		vertexBuffer.reset(VertexBuffer::create(vertices, sizeof(vertices)));
-
 		BufferLayout layout = {
 			{ShaderDataType::Float3, "a_Position"},
 			{ShaderDataType::Float4, "a_Color"}
 		};
 
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::create(vertices, sizeof(vertices)));
 		vertexBuffer->setLayout(layout);
 
-		uint32_t index = 0;
-		for (const auto &element : vertexBuffer->getLayout())
-		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(
-				index, 
-				element.getComponentCount(), 
-				shaderDataTypeToOpenGLBaseType(element.type), 
-				element.normalized ? GL_TRUE : GL_FALSE,
-				layout.getStride(),
-				(const void*)element.offset
-			);
-			index++;
-		}
+		
 
 		unsigned int indices[3] = {0, 1, 2};
+		std::shared_ptr<IndexBuffer> indexBuffer;
 		indexBuffer.reset(IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t)));
+
+		vertexArray->addVertexBuffer(vertexBuffer);
+		vertexArray->setIndexBuffer(indexBuffer);
 
 		std::string vertexSrc = R"(
 			#version 330 core
@@ -155,8 +114,8 @@ namespace Frost
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			shader->bind();
-			glBindVertexArray(vertexArray);
-			glDrawElements(GL_TRIANGLES, indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
+			vertexArray->bind();
+			glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (Layer *layer : layerStack)
 				layer->onUpdate();
