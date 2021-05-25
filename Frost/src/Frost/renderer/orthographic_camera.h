@@ -4,7 +4,7 @@
 
 namespace Frost
 {
-    class OrthographicCamera
+    class FROST_API OrthographicCamera
     {
     public:
         OrthographicCamera(float left, float right, float bottom, float top);

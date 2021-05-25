@@ -6,9 +6,6 @@
 #include "frost/window.h"
 #include "frost/layer_stack.h"
 #include "frost/imgui/imgui_layer.h"
-#include "frost/renderer/shader.h"
-#include "frost/renderer/vertex_array.h"
-#include "frost/renderer/orthographic_camera.h"
 
 namespace Frost
 {
@@ -30,13 +27,13 @@ namespace Frost
 	private:
 		bool onWindowClose(WindowCloseEvent &e);
 		std::unique_ptr<Window> window;
-		std::shared_ptr<Shader>  shader;
+
 		ImGuiLayer* imGuiLayer;
 		bool running = true;
 		LayerStack layerStack;
+		float lastFrameTime;
+
 		static Application *instance;
-		std::shared_ptr<VertexArray> vertexArray;
-		OrthographicCamera camera;
 	};
 
 	Application *CreateApplication();

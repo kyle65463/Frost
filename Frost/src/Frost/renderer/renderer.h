@@ -8,7 +8,7 @@
 
 namespace Frost
 {
-    class Renderer
+    class FROST_API Renderer
     {
     public:
         static void beginScene(OrthographicCamera& camera);

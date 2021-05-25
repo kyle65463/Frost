@@ -5,7 +5,7 @@
 
 namespace Frost
 {
-    class Shader
+    class FROST_API Shader
     {
     public:
         Shader(const std::string& vertexSrc, const std::string& fragmentSrc);

@@ -1,7 +1,8 @@
 #pragma once
 
-#include "core.h"
-#include "events/event.h"
+#include "frost/core.h"
+#include "frost/core/timestep.h"
+#include "frost/events/event.h"
 
 namespace Frost
 {
@@ -13,7 +14,7 @@ namespace Frost
 
         virtual void onAttach() {}
         virtual void onDetach() {}
-        virtual void onUpdate() {}
+        virtual void onUpdate(TimeStep timeStep) {}
         virtual void onEvent(Event &e) {}
         virtual void onImGuiRender() {}
 

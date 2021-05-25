@@ -38,7 +38,7 @@ namespace Frost
         return 0;
     }
 
-    struct BufferElement
+    struct FROST_API BufferElement
     {
         BufferElement() {}
         BufferElement(ShaderDataType type, const std::string &name, bool normalized = false)
@@ -74,7 +74,7 @@ namespace Frost
 		}
     };
 
-    class BufferLayout
+    class FROST_API BufferLayout
     {
         public:
             BufferLayout() {}
@@ -109,7 +109,7 @@ namespace Frost
             }
     };
 
-    class VertexBuffer
+    class FROST_API VertexBuffer
     {
     public:
         virtual ~VertexBuffer() {}
@@ -123,7 +123,7 @@ namespace Frost
         static VertexBuffer *create(float *vertices, uint32_t size);
     };
 
-    class IndexBuffer
+    class FROST_API IndexBuffer
     {
     public:
         virtual ~IndexBuffer() {}

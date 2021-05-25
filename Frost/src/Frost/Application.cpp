@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "application.h"
 
+#include "frost/core/timestep.h"
 #include "frost/events/key_event.h"
-#include "frost/renderer/buffer.h"
-#include "frost/renderer/renderer.h"
+#include "glfw/glfw3.h"
 
 namespace Frost
 {
@@ -11,7 +11,6 @@ namespace Frost
 
 	Application *Application::instance = NULL;
 	Application::Application()
-		: camera(-1.0f, 1.0f, -1.0f, 1.0f)
 	{
 		FS_CORE_ASSERT(!instance, "Application already exists");
 		instance = this;
@@ -21,62 +20,7 @@ namespace Frost
 		imGuiLayer = new ImGuiLayer();
 		pushOverlay(imGuiLayer);
 
-		vertexArray.reset(VertexArray::create());
-
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
-			0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
-			0.0f, 0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f};
-
-		BufferLayout layout = {
-			{ShaderDataType::Float3, "a_Position"},
-			{ShaderDataType::Float4, "a_Color"}};
-
-		std::shared_ptr<VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(VertexBuffer::create(vertices, sizeof(vertices)));
-		vertexBuffer->setLayout(layout);
-
-		unsigned int indices[3] = {0, 1, 2};
-		std::shared_ptr<IndexBuffer> indexBuffer;
-		indexBuffer.reset(IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t)));
-
-		vertexArray->addVertexBuffer(vertexBuffer);
-		vertexArray->setIndexBuffer(indexBuffer);
-
-		std::string vertexSrc = R"(
-			#version 330 core
-
-			layout(location=0) in vec3 a_Position;
-			layout(location=1) in vec4 a_Color;
-
-			uniform mat4 u_ViewProjection;
-
-			out vec3 v_Position;
-			out vec4 v_Color;
-
-			void main()
-			{
-				v_Position = a_Position;
-				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-			}
-		)";
-
-		std::string fragmentSrc = R"(
-			#version 330 core
-
-			layout(location=0) out vec4 color;
-
-			in vec3 v_Position;
-			in vec4 v_Color;
-
-			void main()
-			{
-				color = v_Color;
-			}
-		)";
-
-		shader.reset(new Shader(vertexSrc, fragmentSrc));
+		lastFrameTime = glfwGetTime();
 	}
 
 	Application::~Application()
@@ -106,22 +50,13 @@ namespace Frost
 	{
 		while (running)
 		{
-			// Clear the screen
-			RenderCommand::setClearColor({1.0, 1.0, 0.5, 1.0});
-			RenderCommand::clear();
-
-			camera.setPosition({0.5f, 0.0f, 0.0f});
-			camera.setRotation(45.0f);
-
-			// Render the scene
-			Renderer::beginScene(camera);
-			Renderer::submit(shader, vertexArray);
-		
-			Renderer::endScene();
+			float time = glfwGetTime();
+			TimeStep timeStep = TimeStep(time - lastFrameTime);
+			lastFrameTime = time;
 
 			// Update layers
 			for (Layer *layer : layerStack)
-				layer->onUpdate();
+				layer->onUpdate(timeStep);
 
 			// Update imgui layers
 			imGuiLayer->begin();

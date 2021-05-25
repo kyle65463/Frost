@@ -5,7 +5,7 @@
 
 namespace Frost
 {
-    class VertexArray
+    class FROST_API VertexArray
     {
     public:
         virtual ~VertexArray() {}

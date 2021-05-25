@@ -2,7 +2,7 @@
 
 namespace Frost
 {
-    class GraphicsContext
+    class FROST_API GraphicsContext
     {
     public:
         // GraphicsContext();

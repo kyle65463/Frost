@@ -5,7 +5,7 @@
 
 namespace Frost
 {
-    class RendererAPI
+    class FROST_API RendererAPI
     {
     public:
         enum class API

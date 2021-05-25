@@ -4,7 +4,7 @@
 
 namespace Frost
 {
-    class RenderCommand
+    class FROST_API RenderCommand
     {
     public:
         inline static void setClearColor(const glm::vec4& color) {  rendererAPI->setClearColor(color); }
